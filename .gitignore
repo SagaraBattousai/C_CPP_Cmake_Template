@@ -1,3 +1,16 @@
+# Vim Ignore
+*.swp
+vim_sessions/
+
+# visualStudios
+*.vs
+
+#Project specific
+docs/sphinx/_static/css/_*
+
+# Distribution / packaging
+build/
+
 # Prerequisites
 *.d
 
