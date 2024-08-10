@@ -2,16 +2,16 @@
 
 Welcome to <Project_Name>'s documentation!
 ==========================================
-**<Project_Name>** is ...
+**<Project_Name>** <Project_Description>
 
 .. note::
    This project is under active development
 
 .. toctree::
    :maxdepth: 1
-   :caption: <Caption>
-   :name: <sec-name>
+   :caption: <Project_Name>
+   :name: sec-<Project_Name>
 
-   <project>/index
+   <Project_Name>/<Module_Name>/index
 
 * :ref:`genindex`

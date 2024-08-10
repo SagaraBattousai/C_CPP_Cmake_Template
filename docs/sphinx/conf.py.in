@@ -23,7 +23,7 @@ import subprocess
 # automatically with CMake they will be set using CMake Variables
 
 project = "@PROJECT_NAME@"
-copyright = '2022, James Calo'
+copyright = '2024, James Calo'
 author = 'James Calo'
 
 # The full version, including alpha/beta/rc tags
@@ -105,7 +105,7 @@ html_js_files = [
 ]
 
 
-html_logo = @SPHINX_ICON_IMAGE_PATH@ #"img/<ICON_IMAGE>.svg"
+#html_logo = @SPHINX_ICON_IMAGE_PATH@ #"img/<ICON_IMAGE>.svg"
 
 ######################################################################
 ## Read the docs config ##

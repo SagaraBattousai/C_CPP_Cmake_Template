@@ -1,39 +1,46 @@
 find_package(Doxygen REQUIRED)
 find_package(Sphinx REQUIRED)
 
-set(DOCS_OUTPUT_DIR "build")
-
 set(DOXYFILE_ROOT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doxygen")
 set(SPHINX_ROOT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/sphinx")
 
-add_subdirectory(${DOXYFILE_ROOT_DIRECTORY})
-add_subdirectory(${SPHINX_ROOT_DIRECTORY})
+set(SPHINX_CSS "css/style.css" "css/colours.css" "css/defaults.css"
+               "css/dark.css" "css/light.css")
 
-set(DOXYFILE_IN "${DOXYFILE_ROOT_DIRECTORY}/Doxyfile.in")
-set(DOXYFILE_OUT "${DOXYFILE_ROOT_DIRECTORY}/Doxyfile")
+# set(SPHINX_JS "js/main.js")
 
-set(SPHINX_CONF_IN "${SPHINX_ROOT_DIRECTORY}/conf.py.in")
-set(SPHINX_CONF_OUT "${SPHINX_ROOT_DIRECTORY}/conf.py")
+# set(SPHINX_ICON_IMAGE_PATH "\"img/<ICON_IMAGE>.svg\"")
 
-#Must be relative for rtd as this variable is set on Doxyfile.in
-set(DOXYGEN_OUTPUT_DIRECTORY ${DOCS_OUTPUT_DIR})
-set(DOXYGEN_XML_INDEX_FILE 
-  "${CMAKE_CURRENT_SOURCE_DIR}/${DOXYGEN_OUTPUT_DIRECTORY}/xml/index.xml")
+set(SPHINX_RESTRUCTRED_TEXT
+    # Root Index
+    "${SPHINX_ROOT_DIRECTORY}/index.rst"
+    "${SPHINX_ROOT_DIRECTORY}/<Project_Name>/<Module_Name>/index.rst")
 
-set(SPHINX_OUTPUT_DIRECTORY 
-  "${CMAKE_CURRENT_SOURCE_DIR}/${DOCS_OUTPUT_DIR}/sphinx")
-set(SPHINX_HTML_INDEX_FILE "${SPHINX_OUTPUT_DIRECTORY}/index.html")
+add_doxygen_docs(
+  Doxygen_thoth
+  DOXYFILE_IN
+  "${DOXYFILE_ROOT_DIRECTORY}/Doxyfile.in"
+  DOXYFILE_OUT
+  "${DOXYFILE_ROOT_DIRECTORY}/Doxyfile"
+  GENERATE_XML
+  GENERATE_MAN
+  JAVADOC_BANNER
+  TARGETS
+  <TARGET_LIST>)
 
-# Relative version is for configuring the file as required for read-the-docs 
-# This is set to be relative to sphinx's conf.py
-set(SPHINX_RELATIVE_DOXYGEN_XML_DIR "../${DOXYGEN_OUTPUT_DIRECTORY}/xml")
+add_sphinx_docs(
+  Sphinx_thoth
+  CONF_IN
+  "${SPHINX_ROOT_DIRECTORY}/conf.py.in"
+  CONF_OUT
+  "${SPHINX_ROOT_DIRECTORY}/conf.py"
+  RESTRUCTRED_TEXT
+  ${SPHINX_RESTRUCTRED_TEXT}
+  CSS
+  ${SPHINX_CSS}
+  BREATHE_DOMAIN_ALL_CPP)
 
-set_doxygen_input_files(pulse anima cactuar dahaka)
-configure_doxygen_and_add_command()
-add_custom_target(Doxygen ALL DEPENDS ${DOXYGEN_XML_INDEX_FILE})
+add_dependencies(Sphinx_thoth Doxygen_thoth)
 
-configure_sphinx_and_add_command()
-add_custom_target(Sphinx ALL DEPENDS ${SPHINX_HTML_INDEX_FILE})
-add_dependencies(Sphinx Doxygen)
-
-set_target_properties(Doxygen Sphinx PROPERTIES FOLDER Docs EXCLUDE_FROM_ALL ON)
+set_target_properties(Doxygen_thoth Sphinx_thoth PROPERTIES FOLDER Docs
+                                                            EXCLUDE_FROM_ALL ON)
