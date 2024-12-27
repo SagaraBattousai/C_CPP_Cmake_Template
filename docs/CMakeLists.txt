@@ -17,7 +17,7 @@ set(SPHINX_RESTRUCTRED_TEXT
     "${SPHINX_ROOT_DIRECTORY}/<Project_Name>/<Module_Name>/index.rst")
 
 add_doxygen_docs(
-  Doxygen_thoth
+  Doxygen_<Project_Name>
   DOXYFILE_IN
   "${DOXYFILE_ROOT_DIRECTORY}/Doxyfile.in"
   DOXYFILE_OUT
@@ -29,7 +29,7 @@ add_doxygen_docs(
   <TARGET_LIST>)
 
 add_sphinx_docs(
-  Sphinx_thoth
+  Sphinx_<Project_Name>
   CONF_IN
   "${SPHINX_ROOT_DIRECTORY}/conf.py.in"
   CONF_OUT
@@ -40,7 +40,7 @@ add_sphinx_docs(
   ${SPHINX_CSS}
   BREATHE_DOMAIN_ALL_CPP)
 
-add_dependencies(Sphinx_thoth Doxygen_thoth)
+add_dependencies(Sphinx_<Project_Name> Doxygen_<Project_Name>)
 
-set_target_properties(Doxygen_thoth Sphinx_thoth PROPERTIES FOLDER Docs
+set_target_properties(Doxygen_<Project_Name> Sphinx_<Project_Name> PROPERTIES FOLDER Docs
                                                             EXCLUDE_FROM_ALL ON)
